@@ -23,19 +23,28 @@ steps:
 #     arguments: '--configuration $(buildConfiguration)'
 #     projects: $(project)
     
-# - task: MSBuild@1
+# - task: NuGetCommand@2
 #   inputs:
-#     configuration: $(buildConfiguration)
-#     msbuildArguments: '-t:build'
-#     solution: $(project)
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '**/*.sln'
+#     restoreSolution: $(project)
 
 - task: MSBuild@1
   inputs:
     configuration: $(buildConfiguration)
-    solution: $(project)
+    msbuildArguments: '-t:build'
+    solution: '$(project)'
+    restoreNugetPackages: true
+
+- task: MSBuild@1
+  inputs:
+    configuration: $(buildConfiguration)
+    msbuildArguments: '-t:pack -p:Version=1.1.1 PackageOutputPath=$(Build.ArtifactStagingDirectory)/private'
+
+
+# - task: MSBuild@1
+#   inputs:
+#     solution: '$(project)'
+#     configuration: '$(buildConfiguration)'
+#     restoreNugetPackages: true
     
 # Pack private
 - task: NuGetCommand@2
