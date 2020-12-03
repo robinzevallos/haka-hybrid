@@ -36,7 +36,7 @@ steps:
 - task: MSBuild@1
   inputs:
     configuration: $(buildConfiguration)
-    msbuildArguments: '-t:pack -p:Version=version-full -p:PackageOutputPath=$(Build.ArtifactStagingDirectory)/public'
+    msbuildArguments: '-t:pack -p:Version=$(version-full) -p:PackageOutputPath=$(Build.ArtifactStagingDirectory)/public'
     solution: '$(project)'
 
 # - task: MSBuild@1
