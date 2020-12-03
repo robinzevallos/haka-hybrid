@@ -10,11 +10,11 @@ variables:
   value: $(Major).$(Minor).$(Patch)
 
 steps:
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet restore'
-  inputs:
-    command: 'restore'
-    projects: $(project)
+# - task: DotNetCoreCLI@2
+#   displayName: 'dotnet restore'
+#   inputs:
+#     command: 'restore'
+#     projects: $(project)
 
 # - task: DotNetCoreCLI@2
 #   displayName: 'dotnet build $(buildConfiguration)'
@@ -23,11 +23,15 @@ steps:
 #     arguments: '--configuration $(buildConfiguration)'
 #     projects: $(project)
     
-- task: MSBuild@1
+# - task: MSBuild@1
+#   inputs:
+#     configuration: $(buildConfiguration)
+#     msbuildArguments: '-t:build'
+#     solution: $(project)
+- task: NuGetCommand@2
   inputs:
-    configuration: $(buildConfiguration)
-    msbuildArguments: '-t:build'
-    solution: $(project)
+    restoreSolution: '**/*.sln'
+    
 # Pack private
 - task: NuGetCommand@2
   inputs:
