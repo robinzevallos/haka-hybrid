@@ -16,82 +16,19 @@ steps:
     command: 'restore'
     projects: $(project)
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'dotnet build $(buildConfiguration)'
-#   inputs:
-#     command: 'build'
-#     arguments: '--configuration $(buildConfiguration)'
-#     projects: $(project)
-    
-# - task: NuGetCommand@2
-#   inputs:
-#     restoreSolution: $(project)
-
+# Pack private
 - task: MSBuild@1
   inputs:
     configuration: $(buildConfiguration)
     msbuildArguments: '-t:build -p:Version=$(version-full) -p:PackageOutputPath=$(Build.ArtifactStagingDirectory)/private'
     solution: '$(project)'
 
+# Pack public
 - task: MSBuild@1
   inputs:
     configuration: $(buildConfiguration)
     msbuildArguments: '-t:pack -p:Version=$(version-full) -p:PackageOutputPath=$(Build.ArtifactStagingDirectory)/public'
     solution: '$(project)'
-
-# - task: MSBuild@1
-#   inputs:
-#     configuration: $(buildConfiguration)
-#     msbuildArguments: '-t:pack -p:Version=1.1.1 PackageOutputPath=$(Build.ArtifactStagingDirectory)/private'
-
-
-# - task: MSBuild@1
-#   inputs:
-#     solution: '$(project)'
-#     configuration: '$(buildConfiguration)'
-#     restoreNugetPackages: true
-    
-# Pack private
-# - task: NuGetCommand@2
-#   inputs:
-#     command: 'pack'
-#     packagesToPack: '$(project)'
-#     versioningScheme: 'byPrereleaseNumber'
-#     majorVersion: '$(Major)'
-#     minorVersion: '$(Minor)'
-#     patchVersion: '$(Patch)'
-#     packDestination: '$(Build.ArtifactStagingDirectory)/private'
-
-# Pack public
-# - task: NuGetCommand@2
-#   inputs:
-#     command: 'pack'
-#     packagesToPack: '$(project)'
-#     versioningScheme: 'byEnvVar'
-#     versionEnvVar: version-full
-#     packDestination: '$(Build.ArtifactStagingDirectory)/private'
-    
-# - task: DotNetCoreCLI@2
-#   displayName: 'dotnet pack private'
-#   inputs:
-#     command: 'pack'
-#     nobuild: true
-#     packagesToPack: '$(project)'
-#     versioningScheme: byPrereleaseNumber
-#     majorVersion: '$(Major)'
-#     minorVersion: '$(Minor)'
-#     patchVersion: '$(Patch)'
-#     packDirectory: '$(Build.ArtifactStagingDirectory)/private'
-
-# - task: DotNetCoreCLI@2
-#   displayName: 'dotnet pack public'
-#   inputs:
-#     command: 'pack'
-#     nobuild: true
-#     packagesToPack: '$(project)'
-#     versioningScheme: byEnvVar
-#     versionEnvVar: version-full
-#     packDirectory: '$(Build.ArtifactStagingDirectory)/public'
 
 - task: CopyFiles@2
   inputs:
