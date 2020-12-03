@@ -10,11 +10,11 @@ variables:
   value: $(Major).$(Minor).$(Patch)
 
 steps:
-# - task: DotNetCoreCLI@2
-#   displayName: 'dotnet restore'
-#   inputs:
-#     command: 'restore'
-#     projects: $(project)
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: 'restore'
+    projects: $(project)
 
 # - task: DotNetCoreCLI@2
 #   displayName: 'dotnet build $(buildConfiguration)'
@@ -32,7 +32,6 @@ steps:
     configuration: $(buildConfiguration)
     msbuildArguments: '-t:build'
     solution: '$(project)'
-    restoreNugetPackages: true
 
 - task: MSBuild@1
   inputs:
