@@ -34,7 +34,8 @@ steps:
 
 - task: MSBuild@1
   inputs:
-    solution: '**/*.sln'
+    configuration: $(buildConfiguration)
+    solution: $(project)
     
 # Pack private
 - task: NuGetCommand@2
