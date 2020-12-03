@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <Authors>Robin Zevallos</Authors>
+    <Description>Set of custom controls with hybrid technology for Xamarin.Forms</Description>
+    <PackageTags>Xamarin.Forms, Xamarin, Hybrid, Control, Custom, Component, Lottie, SVG</PackageTags>
+    <Version>0.0.10</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>$(SolutionDir)nugets</PackageOutputPath>
+  </PropertyGroup>
+</Project>

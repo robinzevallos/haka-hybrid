@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <script>
+        {script}
+    </script>
+
+    <div id="bodymovin"></div>
+
+    <script>
+
+        var animData = {
+            wrapper: document.getElementById('bodymovin'),
+            animType: 'svg',
+            loop: true,
+            prerender: true,
+            autoplay: true,
+            controls: true,
+            //path: 'https://assets3.lottiefiles.com/packages/lf20_j5gUf1.json'
+            path: '{path}'
+        };
+
+        var anim = bodymovin.loadAnimation(animData);
+        bodymovin.setSubframeRendering(false);
+
+        bodymovin.setSpeed(1.5);
+
+        function pause() {
+            bodymovin.pause();
+        }
+
+        function play() {
+            bodymovin.play();
+        }
+
+        document.write(__filename);
+    </script>
+
+    <style>
+        html, body {
+            margin: 0; 
+            height: 100%; 
+            overflow: hidden;
+        }
+
+        #bodymovin {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</body>
+</html>
