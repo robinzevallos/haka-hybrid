@@ -16,34 +16,19 @@ steps:
     command: 'restore'
     projects: $(project)
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet build $(buildConfiguration)'
+# Pack private
+- task: MSBuild@1
   inputs:
-    command: 'build'
-    arguments: '--configuration $(buildConfiguration)'
-    projects: $(project)
-    
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet pack private'
-  inputs:
-    command: 'pack'
-    nobuild: true
-    packagesToPack: '$(project)'
-    versioningScheme: byPrereleaseNumber
-    majorVersion: '$(Major)'
-    minorVersion: '$(Minor)'
-    patchVersion: '$(Patch)'
-    packDirectory: '$(Build.ArtifactStagingDirectory)/private'
+    configuration: $(buildConfiguration)
+    msbuildArguments: '-t:build -p:Version=$(version-full) -p:PackageOutputPath=$(Build.ArtifactStagingDirectory)/private'
+    solution: '$(project)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet pack public'
+# Pack public
+- task: MSBuild@1
   inputs:
-    command: 'pack'
-    nobuild: true
-    packagesToPack: '$(project)'
-    versioningScheme: byEnvVar
-    versionEnvVar: version-full
-    packDirectory: '$(Build.ArtifactStagingDirectory)/public'
+    configuration: $(buildConfiguration)
+    msbuildArguments: '-t:pack -p:Version=$(version-full) -p:PackageOutputPath=$(Build.ArtifactStagingDirectory)/public'
+    solution: '$(project)'
 
 - task: CopyFiles@2
   inputs:
