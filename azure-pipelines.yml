@@ -16,11 +16,17 @@ steps:
     command: 'restore'
     projects: $(project)
 
+- task: MSBuild@1
+  inputs:
+    configuration: $(buildConfiguration)
+    msbuildArguments: '-t:build'
+    solution: '$(project)'
+
 # Pack private
 - task: MSBuild@1
   inputs:
     configuration: $(buildConfiguration)
-    msbuildArguments: '-t:build -p:Version=$(version-full) -p:PackageOutputPath=$(Build.ArtifactStagingDirectory)/private'
+    msbuildArguments: '-t:pack -p:Version=$(version-full) -p:PackageOutputPath=$(Build.ArtifactStagingDirectory)/private'
     solution: '$(project)'
 
 # Pack public
