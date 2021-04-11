@@ -5,17 +5,16 @@
     x:Class="Haka.Hybrid.Sample.MainPage"
     xmlns:hybrid="clr-namespace:Haka.Hybrid;assembly=Haka.Hybrid"
     >
-
     <ScrollView Padding="20">
         <StackLayout Spacing="30">
             <hybrid:SvgHybrid
-                BackgroundColor="Orange"
+                BackgroundColor="Purple"
                 Source="person.svg"
-                Size="100"
+                HeightRequest="100"
                 />
             <hybrid:SvgHybrid
                 Source="spinner.svg"
-                Size="100"
+                HeightRequest="100"
                 />
             <hybrid:LottieHybrid
                 Source="https://assets3.lottiefiles.com/packages/lf20_3QexPM.json"
@@ -23,5 +22,4 @@
                 />
         </StackLayout>
     </ScrollView>
-
 </ContentPage>

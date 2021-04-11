@@ -20,6 +20,9 @@ namespace Haka.Hybrid.Renderers
             if (e.NewElement != null)
             {
                 Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
+                Control.Settings.SetAppCacheEnabled(true);
+                Control.Settings.CacheMode = Android.Webkit.CacheModes.Normal;
+                Control.Settings.SetRenderPriority(Android.Webkit.WebSettings.RenderPriority.High);
             }
         }
     }

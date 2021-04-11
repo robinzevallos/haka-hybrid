@@ -1,37 +1,34 @@
-﻿using Haka.Hybrid.Customs;
+﻿using Haka.Core;
+using Haka.Hybrid.Customs;
 using Kasay.BindableProperty;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using Xamarin.Forms;
-using Haka.Core;
 
 namespace Haka.Hybrid
 {
     public class SvgHybrid : ContentView
     {
-        readonly static Dictionary<String, WebViewCustom> webViewCustomStore = webViewCustomStore ?? new Dictionary<String, WebViewCustom>();
+        readonly static Dictionary<string, HtmlWebViewSource> htmlWebViewStore = htmlWebViewStore ?? new Dictionary<string, HtmlWebViewSource>();
 
-        [Bind] public String Source { get; set; }
-
-        [Bind] public Double Size { get; set; }
+        [Bind] public string Source { get; set; }
 
         public SvgHybrid()
         {
-            this
-                .OnChanged(_ => _.Source, OnSourceChanged)
-                .OnChanged(_ => _.Size, OnSizeChanged);
+            this.OnChanged(_ => _.Source, OnSourceChanged);
+
+            HeightRequest = 50;
+            WidthRequest = 50;
         }
 
         void OnSourceChanged()
         {
-            if (String.IsNullOrWhiteSpace(Source)) return;
+            if (string.IsNullOrWhiteSpace(Source)) return;
 
-            if (!webViewCustomStore.TryGetValue(Source, out WebViewCustom webViewCustom))
+            if (!htmlWebViewStore.TryGetValue(Source, out HtmlWebViewSource htmlWebViewSource))
             {
-                webViewCustom = new WebViewCustom();
-                HtmlWebViewSource htmlWebViewSource = new HtmlWebViewSource();
-                String svgContent;
+                htmlWebViewSource = new HtmlWebViewSource();
+                string svgContent;
 
                 if (Source.Contains("https"))
                 {
@@ -45,20 +42,18 @@ namespace Haka.Hybrid
                     svgContent = LocalResource.GetContent(Source);
                 }
 
-                var svgHtmlContent = LocalResource.GetContent("svg.html", this)
-                    .Replace("{svg}", svgContent);
+                htmlWebViewSource.Html = LocalResource.GetContent("svg.html", this)
+                    .Replace("{svg}", svgContent); ;
 
-                htmlWebViewSource.Html = svgHtmlContent;
-                webViewCustom.Source = htmlWebViewSource;
+                htmlWebViewStore.Add(Source, htmlWebViewSource);
             }
 
-            Content = webViewCustom;
-        }
+            var webViewCustom = new WebViewCustom
+            {
+                Source = htmlWebViewSource
+            };
 
-        void OnSizeChanged()
-        {
-            HeightRequest = Size;
-            WidthRequest = Size;
+            Content = webViewCustom;
         }
     }
 }
